@@ -20,6 +20,13 @@ Route::get('hello/:name', 'index/hello');
 Route::group("/user",function(){
 
     Route::post("/add","user/add");
-    
-    Route::get("/list","user/getList");
+
+    Route::post("/login","user/login");
+
+    Route::post("/update","user/update");
+
+    Route::delete("/delete/:id","user/delete");
+
+    Route::get("/page","user/page");
+
 });
