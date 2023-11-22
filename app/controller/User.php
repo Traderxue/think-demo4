@@ -60,7 +60,7 @@ class User extends BaseController
     {
         $id = $request->post("id");
         $user = UserModel::where("id", $id)->find();
-        $update_time = date("Y:m:d H:i:s");
+        $update_time = date("Y-m-d H:i:s");
         $balance = $request->post("balance");
 
         $res = $user->save(['update_time' => $update_time, "balance" => $balance]);
@@ -100,6 +100,8 @@ class User extends BaseController
         $to_id = $request->post("to_id");
         $amount = (float) $request->post("amount");
 
+        $update_time = date("Y-m-d H:i:s");
+
         Db::startTrans();
         try {
             $from_user = UserModel::where("id", $from_id)->find();
@@ -112,8 +114,8 @@ class User extends BaseController
                 return $this->result->error("余额不足");
             }
 
-            $from_user->save(["balance" => $from_balance - $amount]);
-            $to_user->save(["balance" => $to_balance + $amount]);
+            $from_user->save(["balance" => $from_balance - $amount,"update_time"=>$update_time]);
+            $to_user->save(["balance" => $to_balance + $amount,"update_time"=>$update_time]);
 
             Db::commit();
         } catch (\Throwable $th) {

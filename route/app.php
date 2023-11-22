@@ -10,13 +10,6 @@
 // +----------------------------------------------------------------------
 use think\facade\Route;
 
-Route::get('think', function () {
-    return 'hello,ThinkPHP6!';
-});
-
-Route::get('hello/:name', 'index/hello');
-
-
 Route::group("/user",function(){
 
     Route::post("/add","user/add");
@@ -28,5 +21,7 @@ Route::group("/user",function(){
     Route::delete("/delete/:id","user/delete");
 
     Route::get("/page","user/page");
+
+    Route::post("/transfer","user/transfer");
 
 });
