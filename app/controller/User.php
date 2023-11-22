@@ -5,6 +5,7 @@ use app\BaseController;
 use think\Request;
 use app\util\Res;
 use app\model\User as UserModel;
+use think\facade\Db;
 
 class User extends BaseController
 {
@@ -93,8 +94,35 @@ class User extends BaseController
         return $this->result->success("获取数据成功", $list);
     }
 
-    function transfer(Request $request){
-        
+    function transfer(Request $request)
+    {
+        $from_id = $request->post("from_id");
+        $to_id = $request->post("to_id");
+        $amount = (float) $request->post("amount");
+
+        Db::startTrans();
+        try {
+            $from_user = UserModel::where("id", $from_id)->find();
+            $from_balance = (float) $from_user->balance;
+
+            $to_user = UserModel::where("id", $to_id)->find();
+            $to_balance = (float) $to_user->balance;
+
+            if ($from_balance < $amount) {
+                return $this->result->error("余额不足");
+            }
+
+            $from_user->save(["balance" => $from_balance - $amount]);
+            $to_user->save(["balance" => $to_balance + $amount]);
+
+            Db::commit();
+        } catch (\Throwable $th) {
+            Db::rollback();
+            return $this->result->error("转账失败");
+            //throw $th;
+        }
+
+        return $this->result->success("转账成功", null);
     }
 
 }
