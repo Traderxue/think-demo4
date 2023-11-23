@@ -63,3 +63,8 @@ Route::group("/rechange",function(){
 
     Route::delete("/delete/:id","rechange/deleteById");
 });
+
+Route::group("/address",function(){
+    
+    Route::post("/add","address/add");
+});
