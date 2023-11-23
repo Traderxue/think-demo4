@@ -52,3 +52,8 @@ Route::group("/refund",function(){
 
     Route::post("/update","refund/update");
 });
+
+Route::group("/rechange",function(){
+    
+    Route::post("/add","rechange/add");
+});
