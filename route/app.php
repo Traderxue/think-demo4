@@ -32,4 +32,10 @@ Route::group("/coin",function(){
 
     Route::get("/page","coin/page");
 
+    Route::delete("/delete/:id","coin/deleteById");
+
+});
+
+Route::group("/file",function(){
+    Route::post("/upload","file/upload");
 });

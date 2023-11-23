@@ -20,28 +20,51 @@ class Coin extends BaseController
         $type = $request->post("type");
         $time = date("Y-m-d H:i:s");
 
-        $coin = new CoinModel([
-            "type"=>$type,
-            "time"=>$time
-        ]);
-        $res = $coin->save();
+        $c = CoinModel::where("type", $type)->find();
 
-        if(!$res){
+        if ($c) {
+            return $this->result->error("币种已存在");
+        }
+
+        $coin = new CoinModel([
+            "type" => $type,
+            "add_time" => $time
+        ]);
+
+        try {
+            $res = $coin->save();
+        } catch (\Exception $e) {
+            return $this->result->error("新增数据失败: " . $e->getMessage());
+        }
+
+        if (!$res) {
             return $this->result->error("新增数据失败");
         }
-        return $this->result->success("新增数据成功",$res);
+        return $this->result->success("新增数据成功", $res);
     }
 
-    function page(Request $request){
-        $page = $request->param("page",1);
-        $pageSize = $request->param("pageSize",10);
+    function page(Request $request)
+    {
+        $page = $request->param("page", 1);
+        $pageSize = $request->param("pageSize", 10);
         $type = $request->param("type");
 
-        $list = CoinModel::where("type","like","%{$type}%")->paginate([
-            "page"=>$page,
-            "pageSize"=>$pageSize
+        $list = CoinModel::where("type", "like", "%{$type}%")->paginate([
+            "page" => $page,
+            "pageSize" => $pageSize
         ]);
-        return $this->result->success("获取数据成功",$list);
+        return $this->result->success("获取数据成功", $list);
+    }
+
+    function deleteById($id)
+    {
+        $res = CoinModel::where("id", $id)->delete();
+
+        if($res){
+            return $this->result->success("删除成功",$res);
+        }
+        return $this->result->error("删除失败");
+
     }
 
 }
