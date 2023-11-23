@@ -51,7 +51,7 @@ class Coin extends BaseController
 
         $list = CoinModel::where("type", "like", "%{$type}%")->paginate([
             "page" => $page,
-            "pageSize" => $pageSize
+            "list_rows" => $pageSize
         ]);
         return $this->result->success("获取数据成功", $list);
     }
