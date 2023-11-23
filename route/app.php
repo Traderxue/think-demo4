@@ -46,7 +46,9 @@ Route::group("/refund",function(){
 
     Route::delete("/delete/:id","refund/deleteById");
 
-    Route::get("/page","refund/page");
+    Route::get("/page","refund/page");      //后台获取列表
 
-    Route::get("/list","refund/list");
+    Route::get("/list","refund/list");      //前端
+
+    Route::post("/update","refund/update");
 });
