@@ -39,3 +39,14 @@ Route::group("/coin",function(){
 Route::group("/file",function(){
     Route::post("/upload","file/upload");
 });
+
+Route::group("/refund",function(){
+
+    Route::post("/add","refund/add");
+
+    Route::delete("/delete/:id","refund/deleteById");
+
+    Route::get("/page","refund/page");
+
+    Route::get("/list","refund/list");
+});

@@ -18,9 +18,14 @@ class Refund extends BaseController{
             "refund_time"=>date("Y-m-d H:i:s"),
             "money"=>$postData["money"],
             "account"=>$postData["account"],
-            "state"=>$postData["1"]
+            "state"=>$postData["state"]
         ]);
-        $res = $refund->save();
+        try {
+            $res = $refund->save();
+        } catch (\Throwable $th) {
+            return $this->result->error($th);
+            //throw $th;
+        }
 
         if(!$res){
             return $this->result->error("添加数据失败");
@@ -46,6 +51,11 @@ class Refund extends BaseController{
             "list_rows"=>$pageSize
         ]);
 
+        return $this->result->success("获取数据成功",$list);
+    }
+
+    function list(Request $request){
+        $list = RefundModel::select();
         return $this->result->success("获取数据成功",$list);
     }
 
