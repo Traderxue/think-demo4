@@ -32,17 +32,40 @@ class Rechange extends BaseController
             $user = UserModel::where("id", $postData["u_id"])->find();
 
             $balance = (float) $user->balance;
-            $user->save(["balance"->$balance + (float) $postData["money"]]);
-            $user->update(['balance' => $user->balance + (float) $postData["money"]]);
+
+            $user->save(['balance' => $balance + (float) $postData["money"]]);
 
             $rechange->save();
 
             Db::commit();
         } catch (\Throwable $th) {
             Db::rollback();
-            return $this->result->error("添加失败" . $th);
+            return $this->result->error("充值失败" . $th);
         }
-        return $this->result->success("添加数据成功", null);
+        return $this->result->success("充值成功", null);
+    }
+
+    function page(Request $request){
+        $page = $request->param("page",1);
+        $pageSize = $request->param("pageSize",10);
+        $u_id = $request->param("u_id");
+
+        $list = RechangeModel::where("u_id",$u_id)->paginate([
+            "page"=>$page,
+            "list_rows"=>$pageSize
+        ]);
+
+        return $this->result->success("获取数据成功",$list);
+    }
+
+    function getByUserId($u_id){
+        $rechange = RechangeModel::where("u_id",$u_id)->select();
+        return $this->result->success("获取数据成功",$rechange);
+    }
+
+    function deleteById($id){
+        $res = RechangeModel::destroy($id);
+        return $this->result->success("删除数据成功",$res);
     }
 
 }

@@ -56,4 +56,10 @@ Route::group("/refund",function(){
 Route::group("/rechange",function(){
     
     Route::post("/add","rechange/add");
+
+    Route::get("/page","rechange/page");
+
+    Route::get("/getbyid/:u_id","rechange/getByUserId");
+
+    Route::delete("/delete/:id","rechange/deleteById");
 });
