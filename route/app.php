@@ -65,6 +65,10 @@ Route::group("/rechange",function(){
 });
 
 Route::group("/address",function(){
-    
+
     Route::post("/add","address/add");
+
+    Route::post("/edit","address/edit");
+
+    Route::get("/get","address/get");
 });
