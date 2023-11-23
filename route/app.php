@@ -25,3 +25,11 @@ Route::group("/user",function(){
     Route::post("/transfer","user/transfer");
 
 });
+
+Route::group("/coin",function(){
+
+    Route::post("/add","coin/add");
+
+    Route::get("/page","coin/page");
+
+});
