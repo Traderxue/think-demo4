@@ -91,10 +91,9 @@ class Order extends BaseController
         return $this->result->success("获取数据成功",$list);
     }
 
-    function getByuid(Request $request){
-        $uid = $request->param("u_id");
+    function getByuid($u_id){
 
-        $list = OrderModel::where("u_id",$uid)->select();
+        $list = OrderModel::where("u_id",$u_id)->select();
 
         return $this->result->success("获取数据成功",$list);
     }

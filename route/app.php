@@ -81,7 +81,21 @@ Route::group("/order",function(){
 
     Route::get("/page","order/page");
 
-    Route::get("/getbyuid","order/getByuid");
+    Route::get("/getbyuid/:u_id","order/getByuid");
 
     Route::delete("/delete/:id","order/deleteById");
+});
+
+Route::group("/mining",function(){
+
+    Route::post("/add","mining/add");
+
+    Route::post("/edit","mining/edit");
+
+    Route::delete("/delete/:id","mining/deleteById");
+
+    Route::get("/page","mining/page");
+
+    Route::get("/list","mining/list");
+
 });
