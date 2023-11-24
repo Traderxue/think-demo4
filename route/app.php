@@ -72,3 +72,16 @@ Route::group("/address",function(){
 
     Route::get("/get","address/get");
 });
+
+Route::group("/order",function(){
+
+    Route::post("/add","order/add");
+
+    Route::post("/edit","order/edit");
+
+    Route::get("/page","order/page");
+
+    Route::get("/getbyuid","order/getByuid");
+
+    Route::delete("/delete/:id","order/deleteById");
+});
